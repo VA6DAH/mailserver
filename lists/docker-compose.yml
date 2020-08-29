@@ -11,10 +11,10 @@ services:
     - "25:25"
     networks:
       mailman:
-        ipv4_address: 172.19.199.1
+        ipv4_address: 172.19.199.6
 
   mailman-core:
-    image: maxking/mailman-core:0.2
+    image: maxking/mailman-core:0.3
     restart: unless-stopped
     stop_grace_period: 30s
     volumes:
@@ -22,17 +22,17 @@ services:
     depends_on:
     - database
     environment:
-    - DATABASE_URL=postgres://mailman:mailmanpass@database/mailmandb
-    - DATABASE_TYPE=postgres
-    - DATABASE_CLASS=mailman.database.postgresql.PostgreSQLDatabase
-    - SMTP_HOST=172.19.199.1
-    - HYPERKITTY_API_KEY=someapikey
+    - DATABASE_URL = postgres://mailman:mailmanpass@database/mailmandb
+    - DATABASE_TYPE =postgres
+    - DATABASE_CLASS =mailman.database.postgresql.PostgreSQLDatabase
+    - SMTP_HOST =172.19.199.6
+    - HYPERKITTY_API_KEY =ADDAPIKEY
     networks:
       mailman:
         ipv4_address: 172.19.199.2
 
   mailman-web:
-    image: maxking/mailman-web:0.2
+    image: maxking/mailman-web:0.3
     restart: unless-stopped
     depends_on:
     - database
@@ -41,13 +41,13 @@ services:
     environment:
     - DATABASE_TYPE=postgres
     - DATABASE_URL=postgres://mailman:mailmanpass@database/mailmandb
-    - HYPERKITTY_API_KEY=someapikey
-    - SERVE_FROM_DOMAIN=lists.fablab-karlsruhe.de
-    - SECRET_KEY=supersecretdjangokey
+    - HYPERKITTY_API_KEY=ADDAPIKEY
+    - SERVE_FROM_DOMAIN=mailman.bitbybit.page
+    - SECRET_KEY=ADDSECKEY
     - UWSGI_STATIC_MAP=/static=/opt/mailman-web-data/static
-    - LETSENCRYPT_EMAIL=mail@morbi-happens.de
-    - LETSENCRYPT_HOST=lists.fablab-karlsruhe.de
-    - VIRTUAL_HOST=lists.fablab-karlsruhe.de
+    - LETSENCRYPT_EMAIL=dakotahourie@gmail.com
+    - LETSENCRYPT_HOST=mailman.bitbybit.page
+    - VIRTUAL_HOST=mailman.bitbybit.page
     - VIRTUAL_PORT=8000
     networks:
       mailman:
